@@ -10,3 +10,11 @@ Simple module that takes data and shows performance of some common machine learn
 3. Random forest. 
 4. XGBoost. 
 
+An example of a result is shown below. 
+
+<img align="center" src="https://raw.githubusercontent.com/NielsBongers/model-overviews/main/Figures/Classification%20example.png" width="500"> 
+
+---
+
+The function returns a dataframe with the different models and associated metrics. It turns out Pandas also supports outputting formated LaTeX (that could have saved me a lot of time...), so there is an additional flag to print this directly. 
+
