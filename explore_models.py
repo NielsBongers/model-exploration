@@ -150,7 +150,13 @@ def get_model_exploration(
 
 
 def get_PCA(
-    df: pd.DataFrame, selected_features=None, split_feature=None, n_components=2
+    df: pd.DataFrame,
+    selected_features=None,
+    title="PCA",
+    split_feature=None,
+    n_components=2,
+    show_figure=True,
+    save_figure=True,
 ):
     """Creates a PCA from the current dataframe.
 
@@ -159,6 +165,12 @@ def get_PCA(
         selected_features (list, optional): Features to do the PCA on. Only works for numerical values. Defaults to None.
         split_feature (string, optional): Features plot separately (for example, multiple different classes). Defaults to None.
         n_components (int, optional): Number of PCA components. Defaults to 2.
+        show_figure (bool, optional): Plot and show the PCA. Defaults to True.
+        save_figure (bool, optional): Plot and save the PCA. Defaults to True.
+
+    Raises:
+        KeyError: Raised if the specified split feature is not in the DataFrame's columns.
+        ValueError: Raised if the number of components is not two when plotting the PCA.
     """
 
     pca_decomposition = PCA(n_components=n_components)
@@ -171,14 +183,14 @@ def get_PCA(
     print(f"Explained variance ratio: {pca_decomposition.explained_variance_ratio_}")
 
     try:
-        if split_feature not in df.columns:
+        if split_feature and split_feature not in df.columns:
             raise KeyError(
                 f"Split feature {split_feature} not found in DataFrame. Options are: {', '.join(list(df.columns))}"
             )
     except Exception as e:
         print(f"Exception: {e}")
 
-    if n_components == 2:
+    if n_components == 2 and (show_figure or save_figure):
         if split_feature:
             unique_classes = df[split_feature].unique()
 
@@ -195,9 +207,30 @@ def get_PCA(
                     for selected_class in unique_classes
                 ]
             )
-        plt.show()
 
-    else:
-        print(
-            f"Plotting is possible/interesting mostly for n_components = 2. Currently selected: {n_components}"
-        )
+        else:
+            selected_pca = pca_decomposition.transform(
+                df[selected_features] if selected_features else df
+            )
+
+            plt.scatter(selected_pca[:, 0], selected_pca[:, 1], alpha=0.5)
+
+        plt.title(title)
+        plt.tight_layout()
+
+        if save_figure:
+            Path("Figures").mkdir(exist_ok=True)
+            destination_path = Path("Figures", title + ".png")
+            plt.savefig(destination_path, dpi=300)
+            print(f"Saved figure to {destination_path}")
+        if show_figure:
+            plt.show()
+
+    try:
+        if n_components != 2 and (show_figure or save_figure):
+            raise ValueError(
+                f"Plotting is possible/interesting mostly for n_components = 2. Currently selected: {n_components}"
+            )
+
+    except ValueError as e:
+        print(f"ValueError: {e}")
