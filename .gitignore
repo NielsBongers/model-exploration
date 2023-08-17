@@ -2,3 +2,8 @@ data_testing.py
 __pycache__
 *.png 
 !Classification example.png
+!PCA example.png
+*.whl 
+*.txt
+!requirements.txt
+PKG-INFO
