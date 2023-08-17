@@ -37,7 +37,7 @@ get_PCA(
 
 The output is the explained variance ratio for the selected number of components, and for two components, a scatterplot of the selected split features, here "success". 
 
-<img align="center" src="https://raw.githubusercontent.com/NielsBongers/model-overviews/main/model_overviews/Figures/PCA%20example.png" width="500"> 
+<img align="center" src="https://raw.githubusercontent.com/NielsBongers/model-overviews/main/Figures/PCA%20example.png" width="500"> 
 
 ## Build and installation 
 
