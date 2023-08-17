@@ -156,15 +156,27 @@ def get_PCA(
 
     Args:
         df (pd.DataFrame): Input dataframe.
-        selected_features (_type_, optional): Features to do the PCA on. Only works for numerical values. Defaults to None.
-        split_feature (_type_, optional): Features plot separately (for example, multiple different classes). Defaults to None.
+        selected_features (list, optional): Features to do the PCA on. Only works for numerical values. Defaults to None.
+        split_feature (string, optional): Features plot separately (for example, multiple different classes). Defaults to None.
         n_components (int, optional): Number of PCA components. Defaults to 2.
     """
 
     pca_decomposition = PCA(n_components=n_components)
-    pca_decomposition.fit(df[selected_features] if selected_features else df)
+
+    try:
+        pca_decomposition.fit(df[selected_features] if selected_features else df)
+    except Exception as e:
+        print(f"Error during PCA decomposition: {e}")
 
     print(f"Explained variance ratio: {pca_decomposition.explained_variance_ratio_}")
+
+    try:
+        if split_feature not in df.columns:
+            raise KeyError(
+                f"Split feature {split_feature} not found in DataFrame. Options are: {', '.join(list(df.columns))}"
+            )
+    except Exception as e:
+        print(f"Exception: {e}")
 
     if n_components == 2:
         if split_feature:
