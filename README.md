@@ -44,7 +44,7 @@ The output is the explained variance ratio for the selected number of components
 The package can be built and installed using 
 
     py -m build --wheel
-    py -m pip install model_exploration-0.1.4-py3-none-any.whl
+    py -m pip install dist/model_exploration-0.1.4-py3-none-any.whl
 
 then imported as 
 
