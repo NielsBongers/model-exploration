@@ -48,7 +48,7 @@ The package can be built and installed using
 
 then imported as 
 
-```python```
+```python
 import model_exploration
 ```
 
