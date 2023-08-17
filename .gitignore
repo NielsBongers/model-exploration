@@ -7,3 +7,6 @@ __pycache__
 *.txt
 !requirements.txt
 PKG-INFO
+build
+dist
+model_exploration.egg-info
